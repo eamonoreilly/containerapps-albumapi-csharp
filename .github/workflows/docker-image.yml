@@ -33,4 +33,4 @@ jobs:
         push: true # Push the image to registry
         provenance: mode=max # By default SLSA mode=min
         sbom: true # Generate SBOM
-        tags: eamonoreilly/containerapps-albumapi-csharp:latest,eamonoreilly/containerapps-albumapi-csharp:${{ github.sha }}
+        tags: cad7ef105d70acr.azurecr.io/containerapps-albumapi-csharp:latest,cad7ef105d70acr.azurecr.io/containerapps-albumapi-csharp:${{ github.sha }}
