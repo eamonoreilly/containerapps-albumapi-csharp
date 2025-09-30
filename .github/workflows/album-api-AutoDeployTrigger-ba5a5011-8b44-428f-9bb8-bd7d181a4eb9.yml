@@ -5,7 +5,7 @@ on:
   # Automatically trigger it when detected changes in repo
   push:
     branches: 
-      [ main ]
+      [ test ]
     paths:
     - '**'
     - '.github/workflows/album-api-AutoDeployTrigger-ba5a5011-8b44-428f-9bb8-bd7d181a4eb9.yml'
@@ -45,5 +45,6 @@ jobs:
           imageToBuild: cad7ef105d70acr.azurecr.io/album-api:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
 
 
