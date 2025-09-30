@@ -1,5 +1,5 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
-WORKDIR /app
+WORKDIR /src
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj ./
@@ -15,4 +15,5 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 EXPOSE 8080
 ENV ASPNETCORE_URLS=http://+:8080
+
 ENTRYPOINT ["dotnet", "albumapi_csharp.dll"]
