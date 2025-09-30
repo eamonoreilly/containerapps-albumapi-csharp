@@ -34,3 +34,33 @@ jobs:
         provenance: mode=min # By default SLSA mode=min
         sbom: false # Generate SBOM
         tags: cad7ef105d70acr.azurecr.io/containerapps-albumapi-csharp:latest,cad7ef105d70acr.azurecr.io/containerapps-albumapi-csharp:${{ github.sha }}
+
+    - name: Set up or oras
+      uses: oras-project/setup-oras@v1
+
+    - name: Create source metadata JSON
+      run: |
+        cat > source-metadata.json << EOF
+        {
+          "source": "${{ github.server_url }}/${{ github.repository }}",
+          "commit": "${{ github.sha }}",
+          "ref": "${{ github.ref }}",
+          "workflow": "${{ github.workflow }}",
+          "run_id": "${{ github.run_id }}",
+          "actor": "${{ github.actor }}",
+          "created": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+        }
+        EOF
+        echo "Created source metadata:"
+        cat source-metadata.json
+
+    - name: Attach source metadata as referrer to the image
+      run: |
+        oras attach cad7ef105d70acr.azurecr.io/containerapps-albumapi-csharp:${{ github.sha }} \
+          --artifact-type application/vnd.github.source.metadata \
+          --annotation org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository }}" \
+          --annotation org.opencontainers.image.revision="${{ github.sha }}" \
+          --annotation org.opencontainers.image.ref.name="${{ github.ref }}" \
+          --annotation org.opencontainers.image.url="${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" \
+          --annotation org.opencontainers.image.documentation="${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/README.md" \
+          source-metadata.json:application/json
