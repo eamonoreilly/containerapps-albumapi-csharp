@@ -31,6 +31,6 @@ jobs:
         file: ./src/Dockerfile # What is the image build config
         platforms: linux/amd64 # Explicitly define the image architecture(s)
         push: true # Push the image to registry
-        provenance: mode=max # By default SLSA mode=min
-        sbom: true # Generate SBOM
+        provenance: mode=min # By default SLSA mode=min
+        sbom: false # Generate SBOM
         tags: cad7ef105d70acr.azurecr.io/containerapps-albumapi-csharp:latest,cad7ef105d70acr.azurecr.io/containerapps-albumapi-csharp:${{ github.sha }}
